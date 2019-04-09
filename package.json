@@ -5,7 +5,7 @@
   "bin": "index.js",
   "scripts": {
     "test": "node './index'",
-    "install": "(cd ./node_modules/node-qconf/build/Release/; install_name_tool -change libqconf.dylib /usr/local/qconf/lib/libqconf.dylib ./qconf.node)"
+    "install": "$(uname) == 'Darwin' && (cd ./node_modules/node-qconf/build/Release/; install_name_tool -change libqconf.dylib /usr/local/qconf/lib/libqconf.dylib ./qconf.node)"
   },
   "repository": {
     "url": "ryli/trigger-qconf",
