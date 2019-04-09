@@ -1,0 +1,21 @@
+{
+  "name": "trigger-qconf",
+  "version": "0.0.1",
+  "description": "test qconf get address",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "npm run lint && jest"
+  },
+  "repository": {
+    "url": "ryli/trigger-qconf",
+    "type": "git"
+  },
+  "author": "ryli<lov.2014@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-qconf": "^0.2.0"
+  }
+}
