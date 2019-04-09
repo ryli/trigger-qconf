@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const qconf = require('node-qconf')
 const path = require('path')
 const { promisify } = require('util')
