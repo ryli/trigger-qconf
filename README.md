@@ -24,22 +24,22 @@ module.exports = {
   // host: slave, master
   // conf: username, password
   mysql: {
-    xx: 'mysql_path_string',
+    some_mysql: 'mysql_path_string',
   },
 
   // conf key
   // conf only
   conf: {
-    xx: 'conf_path_string',
+    some_conf: 'conf_path_string',
   },
 
   // other
   // host only
   other_1: {
-    xx: 'host_path_string',
+    some_host: 'host_path_string',
   },
   other_2: {
-    xx: 'host_path_string',
+    some_host: 'host_path_string',
   },
 }
 ```

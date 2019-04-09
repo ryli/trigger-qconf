@@ -19,7 +19,7 @@ exec()
 async function exec() {
   // 测试次数
   const execCount = 3
-  let result = null
+  let result = true
 
   const hostList = []
   const confList = []
@@ -50,9 +50,13 @@ async function exec() {
   let index = 0
   do {
     index += 1
+    result = true
     handle()
-    if (index < execCount) {
+    if (index < execCount + 1) {
       await sleep(1000)
+    }
+    if (index > 1) {
+      console.log('test', index)
     }
   } while (!result && index < execCount)
 
@@ -60,24 +64,40 @@ async function exec() {
     console.log('qconf test success')
     process.exitCode = 0
   } else {
+    if (hostList.length) {
+      console.log('failed host:\n', hostList.join('\n'))
+    }
+    if (confList.length) {
+      console.log('failed host:\n', confList.join('\n'))
+    }
     console.error('qconf test error')
     process.exitCode = 1
   }
 
   function handle(flag = '') {
-    hostList.forEach(qconfPath => {
+    const currHostList = [...hostList]
+    const currConfList = [...confList]
+
+    currHostList.forEach(qconfPath => {
       const addr = qconf.getHost(qconfPath, flag)
-      console.log('host:', qconfPath, addr)
-      if (addr === null) result = false
+      if (addr === null) {
+        result = false
+      } else {
+        console.log('host:', qconfPath, addr)
+        hostList.splice(hostList.findIndex(v => v === qconfPath), 1)
+      }
     })
 
-    confList.forEach(qconfPath => {
+    currConfList.forEach(qconfPath => {
       const addr = qconf.getConf(qconfPath, flag)
-      console.log('conf:', qconfPath, addr)
-      if (addr === null) result = false
+      if (addr === null) {
+        result = false
+      } else {
+        console.log('host:', qconfPath, addr)
+        confList.splice(confList.findIndex(v => v === qconfPath), 1)
+      }
     })
 
-    result = result === null
     return result
   }
 }
