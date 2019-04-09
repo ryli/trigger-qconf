@@ -2,7 +2,7 @@
   "name": "trigger-qconf",
   "version": "0.0.1",
   "description": "test qconf get address",
-  "main": "index.js",
+  "bin": "index.js",
   "files": [
     "index.js"
   ],
