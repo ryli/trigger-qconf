@@ -30,11 +30,11 @@ async function exec() {
     // 处理 mysql
     if (key === 'mysql') {
       subList.forEach(host => {
-        hostList.push(`${host}/slave`)
-        hostList.push(`${host}/master`)
+        hostList.push(path.join(host, 'master'))
+        hostList.push(path.join(host, 'slave'))
 
-        confList.push(`${host}/password`)
-        confList.push(`${host}/username`)
+        confList.push(path.join(host, 'password'))
+        confList.push(path.join(host, 'username'))
       })
 
     // conf 类型
@@ -68,7 +68,7 @@ async function exec() {
       console.log('failed host:\n', hostList.join('\n'))
     }
     if (confList.length) {
-      console.log('failed host:\n', confList.join('\n'))
+      console.log('failed conf:\n', confList.join('\n'))
     }
     console.error('qconf test error')
     process.exitCode = 1
