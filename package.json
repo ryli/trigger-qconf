@@ -1,13 +1,11 @@
 {
   "name": "trigger-qconf",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "test qconf get address",
   "bin": "index.js",
-  "files": [
-    "index.js"
-  ],
   "scripts": {
-    "test": "npm run lint && jest"
+    "test": "node './index'",
+    "install": "(cd ./node_modules/node-qconf/build/Release/; install_name_tool -change libqconf.dylib /usr/local/qconf/lib/libqconf.dylib ./qconf.node)"
   },
   "repository": {
     "url": "ryli/trigger-qconf",
