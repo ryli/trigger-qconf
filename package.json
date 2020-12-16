@@ -1,6 +1,6 @@
 {
   "name": "trigger-qconf",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "get all the values in the config file",
   "bin": "index.js",
   "scripts": {

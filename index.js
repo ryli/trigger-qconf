@@ -40,7 +40,7 @@ async function exec() {
       })
     } else if (['conf', 'kafka'].includes(key)) {
       confList.push(...subList)
-    } else if (key === 'host') {
+    } else if (['host', 'redis'].includes(key)) {
       hostList.push(...subList)
     } else {
       console.error(`Unknown key: ${key} ${subList.join(',')}\n`)

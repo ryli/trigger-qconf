@@ -24,23 +24,27 @@ module.exports = {
   // host: slave, master
   // conf: username, password
   mysql: {
-    // 支持的方式1：直接是配置字符串
+    // 1：conf string
     some_mysql: 'mysql_path_string',
-    // 支持的方式2：有 qconf 属性的对象
+    // 2: object that has a `qconf` attribute
     some_mysql: {
       qconf: 'mysql_path_string',
     }
   },
 
-  // conf key
-  // conf only
+  // conf key: conf or kafka
   conf: {
     some_conf: 'conf_path_string',
   },
+  kafka: {
+    some_conf: 'conf_path_string',
+  },
 
-  // host only
-  // host only
+  // host key
   host: {
+    some_host: 'host_path_string',
+  },
+  redis: {
     some_host: 'host_path_string',
   },
 
