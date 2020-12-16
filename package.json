@@ -1,11 +1,11 @@
 {
   "name": "trigger-qconf",
-  "version": "0.0.8",
-  "description": "test qconf get address",
+  "version": "0.1.0",
+  "description": "get all the values in the config file",
   "bin": "index.js",
   "scripts": {
     "test": "node './index'",
-    "install": "if [ '$(uname)'=='Darwin' ]; then (cd ./node_modules/node-qconf/build/Release/; install_name_tool -change libqconf.dylib /usr/local/qconf/lib/libqconf.dylib ./qconf.node) ;fi"
+    "postinstall": "if [ '$(uname)'=='Darwin' ]; then (cd ./node_modules/node-qconf/build/Release/; install_name_tool -change libqconf.dylib /usr/local/qconf/lib/libqconf.dylib ./qconf.node) ;fi"
   },
   "repository": {
     "url": "ryli/trigger-qconf",
@@ -14,6 +14,6 @@
   "author": "ryli<lov.2014@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "node-qconf": "^0.2.0"
+    "node-qconf": "^0.4.2"
   }
 }

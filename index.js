@@ -7,13 +7,15 @@ const { promisify } = require('util')
 const sleep = setTimeout[promisify.custom]
 
 if (process.argv.length < 3) {
-  console.log('Missing conf path.')
-  process.exitCode = 1
-  process.exit()
+  console.error('Missing file params.')
+  process.exit(1)
 }
 
 const qconfPath = path.resolve('', process.argv[2])
+const flag = process.argv[3] ? process.argv[3] : ''
+
 const qconfMap = require(qconfPath)
+
 exec()
 
 async function exec() {
@@ -30,20 +32,18 @@ async function exec() {
     // 处理 mysql
     if (key === 'mysql') {
       subList.forEach(host => {
-        hostList.push(path.join(host, 'master'))
-        hostList.push(path.join(host, 'slave'))
-
-        confList.push(path.join(host, 'password'))
-        confList.push(path.join(host, 'username'))
+        const key = typeof host === 'string' ? host : host.qconf
+        hostList.push(path.join(key, 'master'))
+        hostList.push(path.join(key, 'slave'))
+        confList.push(path.join(key, 'password'))
+        confList.push(path.join(key, 'username'))
       })
-
-    // conf 类型
-    } else if (key === 'conf') {
-      subList.forEach(conf => confList.push(conf))
-
-    // 其他为 host 类型
+    } else if (['conf', 'kafka'].includes(key)) {
+      confList.push(...subList)
+    } else if (key === 'host') {
+      hostList.push(...subList)
     } else {
-      subList.forEach(host => hostList.push(host))
+      console.error(`Unknown key: ${key} ${subList.join(',')}\n`)
     }
   })
 
@@ -52,29 +52,26 @@ async function exec() {
     index += 1
     result = true
     handle()
-    if (index < execCount + 1) {
-      await sleep(1000)
-    }
-    if (index > 1) {
-      console.log('test', index)
+    if (!result && index < execCount + 1) {
+      await sleep(100)
     }
   } while (!result && index < execCount)
 
   if (result) {
-    console.log('qconf test success')
+    console.log('\nSuccess!')
     process.exitCode = 0
   } else {
     if (hostList.length) {
-      console.log('failed host:\n', hostList.join('\n'))
+      console.error('failed host:\n', hostList.join('\n'))
     }
     if (confList.length) {
-      console.log('failed conf:\n', confList.join('\n'))
+      console.error('failed conf:\n', confList.join('\n'))
     }
-    console.error('qconf test error')
+    console.error('\nFailed!')
     process.exitCode = 1
   }
 
-  function handle(flag = '') {
+  function handle() {
     const currHostList = [...hostList]
     const currConfList = [...confList]
 
@@ -83,7 +80,7 @@ async function exec() {
       if (addr === null) {
         result = false
       } else {
-        console.log('host:', qconfPath, addr)
+        console.log('host:', qconfPath, '-->', addr)
         hostList.splice(hostList.findIndex(v => v === qconfPath), 1)
       }
     })
@@ -93,7 +90,7 @@ async function exec() {
       if (addr === null) {
         result = false
       } else {
-        console.log('host:', qconfPath, addr)
+        console.log('host:', qconfPath, '-->', addr)
         confList.splice(confList.findIndex(v => v === qconfPath), 1)
       }
     })

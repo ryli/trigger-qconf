@@ -3,7 +3,7 @@
 
 [![NPM version](https://badgen.net/npm/v/trigger-qconf)](https://npmjs.com/package/trigger-qconf) [![NPM downloads](https://badgen.net/npm/dm/trigger-qconf)](https://npmjs.com/package/trigger-qconf)
 
-test get address by qconf
+get all the values in the config file.
 
 ## Install
 
@@ -24,7 +24,12 @@ module.exports = {
   // host: slave, master
   // conf: username, password
   mysql: {
+    // 支持的方式1：直接是配置字符串
     some_mysql: 'mysql_path_string',
+    // 支持的方式2：有 qconf 属性的对象
+    some_mysql: {
+      qconf: 'mysql_path_string',
+    }
   },
 
   // conf key
@@ -33,21 +38,20 @@ module.exports = {
     some_conf: 'conf_path_string',
   },
 
-  // other
   // host only
-  other_1: {
+  // host only
+  host: {
     some_host: 'host_path_string',
   },
-  other_2: {
-    some_host: 'host_path_string',
-  },
+
 }
 ```
 
 ## Usage
 
 ```bash
-trigger-qconf file-path
+# flag: production, 可以不填，默认为空
+trigger-qconf file-path [flag]
 ```
 
 ## Contributing
