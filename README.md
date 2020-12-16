@@ -54,7 +54,7 @@ module.exports = {
 ## Usage
 
 ```bash
-# flag: production, 可以不填，默认为空
+# flag: production
 trigger-qconf file-path [flag]
 ```
 
