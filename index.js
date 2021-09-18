@@ -27,25 +27,31 @@ async function exec() {
   const confList = []
   const keyList = Object.keys(qconfMap)
 
-  keyList.forEach(key => {
-    const subList = Object.values(qconfMap[key])
-    // 处理 mysql
-    if (key === 'mysql') {
-      subList.forEach(host => {
-        const key = typeof host === 'string' ? host : host.qconf
-        hostList.push(path.join(key, 'master'))
-        hostList.push(path.join(key, 'slave'))
-        confList.push(path.join(key, 'password'))
-        confList.push(path.join(key, 'username'))
-      })
-    } else if (['conf', 'kafka'].includes(key)) {
-      confList.push(...subList)
-    } else if (['host', 'redis'].includes(key)) {
-      hostList.push(...subList)
-    } else {
-      console.error(`Unknown key: ${key} ${subList.join(',')}\n`)
-    }
-  })
+  if (keyList.includes('HostKey') && keyList.includes('ConfKey')) {
+    hostList.push(...qconfMap.HostKey)
+    confList.push(...qconfMap.ConfKey)
+  } else {
+    keyList.forEach(key => {
+      const subList = Object.values(qconfMap[key])
+      // 处理 mysql
+      if (key === 'mysql') {
+        subList.forEach(host => {
+          const key = typeof host === 'string' ? host : host.qconf
+          hostList.push(path.join(key, 'master'))
+          hostList.push(path.join(key, 'slave'))
+          confList.push(path.join(key, 'password'))
+          confList.push(path.join(key, 'username'))
+        })
+      } else if (['conf', 'kafka'].includes(key)) {
+        confList.push(...subList)
+      } else if (['host', 'redis'].includes(key)) {
+        hostList.push(...subList)
+      } else {
+        console.error(`Unknown key: ${key} ${subList.join(',')}\n`)
+      }
+    })
+  }
+
 
   let index = 0
   do {
