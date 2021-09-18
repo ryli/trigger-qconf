@@ -46,6 +46,9 @@ async function exec() {
         confList.push(...subList)
       } else if (['host', 'redis'].includes(key)) {
         hostList.push(...subList)
+      } else if (key === 'healthchecks' && qconfMap.healthchecks.baseURL) {
+        confList.push(qconfMap.healthchecks.baseURL)
+        confList.push(...Object.values(qconfMap.healthchecks.checks))
       } else {
         console.error(`Unknown key: ${key} ${subList.join(',')}\n`)
       }
